@@ -1,9 +1,32 @@
-// TODO: Create a variable that selects the main element
+const mainElement = document.querySelector('#blog-posts');
 
-// TODO: Create a function that builds an element and appends it to the DOM
+const displayBlogPosts = () => {
+  const posts = JSON.parse(localStorage.getItem('blogPosts')) || [];
 
-// TODO: Create a function that handles the case where there are no blog posts to display
+  if (posts.length === 0) {
+    const noPostsMessage = document.createElement('p');
+    noPostsMessage.textContent = "No Blog posts yet...";
+    mainElement.appendChild(noPostsMessage);
+    return;
+  }
 
-// TODO: Create a function that reads from local storage and returns the data
+  posts.forEach(post => {
+    const postContainer = document.createElement('div');
+    const postTitle = document.createElement('h2');
+    const postAuthor = document.createElement('p');
+    const postContent = document.createElement('p');
 
-// TODO: Call the function to render the list of blog posts
+    postTitle.textContent = post.title;
+    postAuthor.textContent = `By: ${post.username}`;
+    postContent.textContent = post.content;
+
+    postContainer.classList.add('post');
+    postContainer.appendChild(postTitle);
+    postContainer.appendChild(postAuthor);
+    postContainer.appendChild(postContent);
+
+    mainElement.appendChild(postContainer);
+  });
+};
+
+displayBlogPosts();
